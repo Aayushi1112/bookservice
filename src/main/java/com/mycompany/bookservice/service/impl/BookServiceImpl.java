@@ -52,6 +52,7 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public void deleteBook(Long bookId) {
+
         bookRepository.deleteById(bookId);
     }
 
@@ -97,4 +98,32 @@ public class BookServiceImpl implements BookService {
         }
         return bookDTO;
     }
-}
+
+  /*  @Override
+    public BookDTO updateBookAvailableQuantity11(BookDTO bookDTO, Long bookId) {
+        Optional<BookEntity> optEntity = bookRepository.findById(bookId);
+        BookEntity be = null;
+        if(optEntity.isPresent()){
+            be = optEntity.get();
+            Double newQty=bookDTO.getAvailableQty()-1;
+            be.setAvailableQty(newQty);
+            be = bookRepository.save(be);
+        }
+        BeanUtils.copyProperties(be, bookDTO);
+        return bookDTO;
+    }*/
+
+    public String updateBookAvailableQuantity(Long bookId) {
+        Optional<BookEntity> optEntity = bookRepository.findById(bookId);
+        BookEntity be = null;
+        if(optEntity.isPresent()){
+            be = optEntity.get();
+            Double newQty=be.getAvailableQty()-1;
+            be.setAvailableQty(newQty);
+            be = bookRepository.save(be);
+        }
+        //BeanUtils.copyProperties(be, bookDTO);
+        return "success";
+    }
+    }
+

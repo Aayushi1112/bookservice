@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/books")
 public class BookController {
 
     @Autowired//spring plz make the object of bsimpl available to bs interface reference here in controller
@@ -23,7 +23,7 @@ public class BookController {
         return responseEntity;
     }
 
-    @GetMapping("/books")
+    @GetMapping("/getbooks")
     public ResponseEntity<List<BookDTO>> getAllBook(){
         List<BookDTO> books = bookService.getAllBook();
         ResponseEntity<List<BookDTO>> responseEntity = new ResponseEntity<>(books, HttpStatus.OK);
@@ -45,10 +45,17 @@ public class BookController {
         return responseEntity;
     }
 
-    @PatchMapping("/books/{bookId}")
+    @PatchMapping("/bookprice/{bookId}")
     public ResponseEntity<BookDTO> updateBookPrice(@RequestBody BookDTO bookDTO, @PathVariable Long bookId){
         bookDTO = bookService.updateBookPrice(bookDTO, bookId);
         ResponseEntity<BookDTO> responseEntity = new ResponseEntity<>(bookDTO, HttpStatus.OK);
+        return responseEntity;
+    }
+
+    @PatchMapping("/bookqty/{bookId}")
+    public ResponseEntity<String> updateBookAvailableQuantity(@RequestBody BookDTO bookDTO, @PathVariable Long bookId){
+        String result= bookService.updateBookAvailableQuantity(bookId);
+        ResponseEntity<String> responseEntity = new ResponseEntity<>(result, HttpStatus.OK);
         return responseEntity;
     }
 
