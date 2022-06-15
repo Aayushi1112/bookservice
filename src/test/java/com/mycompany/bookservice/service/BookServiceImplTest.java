@@ -79,8 +79,36 @@ public class BookServiceImplTest {
     }
     @Test
     void updateBookAvailableQuantityTest(){
-        bookRepository.findById(bookId)
+        Long bookId=1L;
+        BookEntity be=new BookEntity();
+        be.setAvailableQty(20.0);
+        BookEntity newbe=new BookEntity();
+        newbe.setAvailableQty(be.getAvailableQty()-1);
+        Mockito.when(bookRepository.findById(bookId)).thenReturn(Optional.of(be));
+        Mockito.when(bookRepository.save(be)).thenReturn(newbe);
+        String result=bookService.updateBookAvailableQuantity(bookId);
+        Assertions.assertEquals("success",result);
     }
+
+    @Test
+ void updateBookTest(){
+        Long bookId=1L;
+        BookEntity be=new BookEntity();
+        BookDTO bookDTO=new BookDTO();
+        bookDTO.setBookId(1L);
+        bookDTO.setName("Harry");
+        bookDTO.setAvailableQty(23.4);
+        bookDTO.setPricePerQty(23.3);
+        bookDTO.setAuthorEmail("aa");
+        bookDTO.setAuthorName("aa");
+        bookDTO.setDescription("hjlk");
+        Mockito.when(bookRepository.findById(bookId)).thenReturn(Optional.of(be));
+        Mockito.when(bookRepository.save(be)).thenReturn(be);
+        bookDTO=bookService.updateBook(bookDTO,bookId);
+        Assertions.assertEquals("Harry",bookDTO.getName());
+
+
+ }
 
 }
 
